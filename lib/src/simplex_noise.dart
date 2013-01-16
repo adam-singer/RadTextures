@@ -1,7 +1,7 @@
 part of rad_textures;
 
 // CqNoise1234
-// Copyright (C) 2003-2012, Stefan Gustavson
+// Copyright (C) 2003-2013, Stefan Gustavson
 //
 // Ported by: John Davis
 // Contact: stegu@itn.liu.se, jdavis@pcprogramming.com
@@ -45,7 +45,7 @@ part of rad_textures;
 // This is the new and improved, C(2) continuous interpolant
 num FADE(num t) { return (t * t * t * ( t * ( t * 6 - 15 ) + 10 )); }
 
-num FASTFLOOR(num x) { return (x>0) ? x.floor() : (x-1).floor(); }
+int FASTFLOOR(num x) { return (x>0) ? x.floor().toInt() : (x-1).floor().toInt(); }
 num NLERP(num t, num a, num b) { return (a + t*(b-a)); }
 
 //---------------------------------------------------------------------
@@ -118,7 +118,7 @@ class SimplexNoise {
      * float SLnoise = (CqNoise1234::noise(x,y,z) + 1.0) * 0.5;
      */
 
-    num grad1(num hash, num x)
+    num grad1(int hash, num x)
     {
         int h = hash & 15;
         num grad = 1.0 + (h & 7);  // Gradient value 1.0, 2.0, ..., 8.0
@@ -128,15 +128,15 @@ class SimplexNoise {
         return ( grad * x );           // Multiply the gradient with the distance
     }
 
-    num grad2(num hash, num x, num y)
+    num grad2(int hash, num x, num y)
     {
         int h = hash & 7;      // Convert low 3 bits of hash code
-        int u = h<4 ? x : y;  // into 8 simple gradient directions,
-        int v = h<4 ? y : x;  // and compute the dot product with (x,y).
+        num u = h<4 ? x : y;  // into 8 simple gradient directions,
+        num v = h<4 ? y : x;  // and compute the dot product with (x,y).
         return ((h & 1) != 0 ? -u : u) + ((h & 2) != 0 ? -2.0 * v : 2.0 * v);
     }
 
-    num grad3(num hash, num x, num y , num z)
+    num grad3(int hash, num x, num y , num z)
     {
         int h = hash & 15;     // Convert low 4 bits of hash code into 12 simple
         num u = h<8 ? x : y; // gradient directions, and compute dot product.
@@ -144,7 +144,7 @@ class SimplexNoise {
         return ((h & 1) != 0 ? -u : u) + ((h & 2) != 0 ? -v : v);
     }
 
-    num grad4(num hash, num x, num y, num z, num t)
+    num grad4(int hash, num x, num y, num z, num t)
     {
         int h = hash & 31;      // Convert low 5 bits of hash code into 32 simple
         num u = h<24 ? x : y; // gradient directions, and compute dot product.
@@ -204,7 +204,7 @@ class SimplexNoise {
      */
     num noise2(num x, num y)
     {
-        num ix0, iy0, ix1, iy1;
+        int ix0, iy0, ix1, iy1;
         num fx0, fy0, fx1, fy1;
         num s, t, nx0, nx1, n0, n1;
 

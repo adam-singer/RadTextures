@@ -1,6 +1,11 @@
-name:  RadTextures
-description:  A sample application
+name:  rad_textures
+version: 1.0.0
+description:  Various texture generating algorithms
+author: John Davis <jdavis@pcprogramming.com>
+homepage: https://github.com/unicomp21/rad_textures
 
-#dependencies:
-#  js: any
-#  unittest: any
+dependencies:
+  js: any
+  unittest: any
+  browser: any
+  
